@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import data from "./data.json";
-import Shop from "./components/Shop";
 import "./index.css";
+import Shop from "./components/Shop";
+import Modal from "./components/Modal/Modal";
+import Overlay from "./components/Overlay";
 
 export default class App extends Component {
     constructor(params) {
@@ -9,6 +11,7 @@ export default class App extends Component {
 
         this.state = {
             cart: [],
+            showModal: false,
         };
 
         this.addToCart = this.addToCart.bind(this);
@@ -16,6 +19,8 @@ export default class App extends Component {
         this.increaseCount = this.increaseCount.bind(this);
         this.decreaseCount = this.decreaseCount.bind(this);
         this.removeFromCart = this.removeFromCart.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     addToCart(name, price, thumb) {
@@ -26,7 +31,7 @@ export default class App extends Component {
             name,
             count: 1,
             price,
-            thumb,
+            thumbnail: thumb,
         };
 
         this.setState({
@@ -65,8 +70,20 @@ export default class App extends Component {
         return cart.some((item) => item.name === name);
     }
 
-    render() {
+    openModal() {
         const { cart } = this.state;
+
+        if (cart.length > 0) {
+            this.setState({ showModal: true });
+        }
+    }
+
+    closeModal() {
+        this.setState({ showModal: false, cart: [] });
+    }
+
+    render() {
+        const { cart, showModal } = this.state;
         return (
             <>
                 <Shop
@@ -77,7 +94,14 @@ export default class App extends Component {
                     onIncrease={this.increaseCount}
                     onDecrease={this.decreaseCount}
                     onRemove={this.removeFromCart}
+                    onOpenModal={this.openModal}
                 />
+                <Modal
+                    cart={cart}
+                    showModal={showModal}
+                    onCloseModal={this.closeModal}
+                />
+                <Overlay showModal={showModal} />
             </>
         );
     }

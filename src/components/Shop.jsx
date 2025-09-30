@@ -4,8 +4,16 @@ import Cart from "./Cart/Cart";
 
 export default class Shop extends Component {
     render() {
-        const { items, cart, onAddItem, isInCart, onIncrease, onDecrease, onRemove } =
-            this.props;
+        const {
+            items,
+            cart,
+            onAddItem,
+            isInCart,
+            onIncrease,
+            onDecrease,
+            onRemove,
+            onOpenModal,
+        } = this.props;
         return (
             <div className="container mx-auto px-4 py-8 lg:py-16">
                 <div className="flex flex-col xl:flex-row items-start gap-5 lg:gap-8">
@@ -17,7 +25,11 @@ export default class Shop extends Component {
                         onIncrease={onIncrease}
                         onDecrease={onDecrease}
                     />
-                    <Cart cart={cart} onRemove={onRemove} />
+                    <Cart
+                        cart={cart}
+                        onRemove={onRemove}
+                        onOpenModal={onOpenModal}
+                    />
                 </div>
             </div>
         );

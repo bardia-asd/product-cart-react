@@ -4,7 +4,7 @@ import CartList from "./CartList";
 
 export default class Cart extends Component {
     render() {
-        const { cart, onRemove } = this.props;
+        const { cart, onRemove, onOpenModal } = this.props;
         return (
             <div className="xl:flex-1 w-full bg-white rounded-xl p-4 shadow">
                 <h2 className="text-red text-lg font-bold mb-4">
@@ -15,7 +15,15 @@ export default class Cart extends Component {
                     )}
                     )
                 </h2>
-                {cart.length ? <CartList cart={cart} onRemove={onRemove} /> : <EmptyCart />}
+                {cart.length ? (
+                    <CartList
+                        cart={cart}
+                        onRemove={onRemove}
+                        onOpenModal={onOpenModal}
+                    />
+                ) : (
+                    <EmptyCart />
+                )}
             </div>
         );
     }
