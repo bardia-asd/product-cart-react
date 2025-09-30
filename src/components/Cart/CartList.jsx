@@ -4,17 +4,28 @@ import CartItem from "./CartItem";
 
 export default class CartList extends Component {
     render() {
+        const { cart, onRemove } = this.props;
         return (
             <div className="space-y-6">
                 <div className="flex flex-col">
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
+                    {cart.map((item) => (
+                        <CartItem key={item.id} {...item} onRemove={onRemove} />
+                    ))}
                 </div>
 
                 <div className="flex items-center justify-between">
                     <p className="text-rose-500 font-medium">Order Total</p>
-                    <p className="font-bold text-2xl">$46.50</p>
+                    <p className="font-bold text-2xl">
+                        $
+                        {cart
+                            .reduce(
+                                (prevPrice, currentObj) =>
+                                    prevPrice +
+                                    currentObj.price * currentObj.count,
+                                0
+                            )
+                            .toFixed(2)}
+                    </p>
                 </div>
 
                 <div className="flex items-center justify-center gap-2 px-1 py-4 rounded-md bg-rose-100">
